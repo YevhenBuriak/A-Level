@@ -7,7 +7,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-
+            //ds a
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Босс может атаковать в двух режимах: все атаки по очереди и случайной атакой");
