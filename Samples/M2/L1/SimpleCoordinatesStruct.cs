@@ -6,7 +6,7 @@ public struct SimpleCoordinatesStruct
 {
     private short _dimension = 2;
     public decimal X { get; set; }
-    public decimal Y { get; set; }
+    public decimal Y { get; set; } = 0;
 
     public SimpleCoordinatesStruct(decimal x = 0, decimal y = 0)
     {

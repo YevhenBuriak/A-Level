@@ -9,15 +9,17 @@ namespace L1;
 public class SimplePersonClass
 {
     //Fields: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/fields
-    public int amountOfFrieands = 0;
-    protected string _birthName = "Smith";
+    public int amountOfFrieands = 10;
+    protected string? _birthName;
 
     private int _age = 0;
     private string? _name;
     private string? _fullName;
 
+
     //Properties: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties
 
+    public static int Hi { get; set; } //Set/Init - Update; Get- Read
     public int AmountOfMonye { get; set; }
     private string PetName { get; set; } = "Buddy";
     protected int YearOfBirth => DateTime.Now.AddDays(-_age).Year;

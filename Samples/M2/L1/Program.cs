@@ -9,15 +9,16 @@ internal class Program
         //WorkWithStructs();
         //WorkWithStatic();
         //WorkWithDttm();
+        Console.WriteLine(TimeZoneInfo.Local);
 
-        //var anonymousType = new { Value = 10 };
+        var anonymousType = new { Value = 10, ShoZavgodno = new SimplePersonClass(21, "John") };
     }
 
     private static void WorkWithClasses()
     {
         Console.WriteLine("Creating instance of .net classes\n");
 
-        string repeatTwoTimes = new string('1', 2);
+        string repeatTwoTimes = new string('2', 3);
 
         Console.WriteLine(repeatTwoTimes);
 
@@ -95,6 +96,7 @@ internal class Program
 
         var calculator = new BirthdayCalculator("Mr President", DateTime.Today.AddYears(-55), "US");
         calculator.Sing();
+
 
         Console.ReadLine();
         Console.Clear();
