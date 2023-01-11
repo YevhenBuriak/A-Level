@@ -7,6 +7,7 @@ internal static class Events
         var swimmingPool = new SwimmingPool();
 
         swimmingPool.WaterLeveler.HighWaterLevelReached = null;
+        swimmingPool.WaterLeveler.HighWaterLevelReached?.Invoke(10);
     }
 
     public class WaterLeveler

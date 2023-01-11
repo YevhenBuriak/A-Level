@@ -8,7 +8,8 @@
             //Anonymous.Execute();
             //DelegateExample.Execute();
             //ActionsAndFunctions.Execute();
-            Closures.Execute();
+            //Closures.Execute();
+            //Events.Execute();
         }
     }
 }
