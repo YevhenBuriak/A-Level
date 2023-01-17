@@ -17,19 +17,22 @@ internal static class Delegates
         Void voidDelegateFromClass = c.WriteHello;
         Void voidDelegateFromStatic = StaticClassWithMethods.WriteGoodby;
 
-        ParamsHandler intDelegateFromClass = c.Add;
+
 
         // invocation
-        voidDelegateFromClass.Invoke();
-        // or
-        voidDelegateFromStatic();
+        //voidDelegateFromClass.Invoke();
+        //// or
+        //voidDelegateFromStatic();
 
-        // invocation with params
-        var sum = intDelegateFromClass.Invoke(1, 2);
-        // or
-        var sum2 = intDelegateFromClass(1, 2);
+        //// invocation with params
+        ///
+        ParamsHandler intDelegateFromClass = c.Add;
+        intDelegateFromClass += c.Multiply;
+        var x = intDelegateFromClass.Invoke(3, 3);
+        //// or
+        //var sum2 = intDelegateFromClass(1, 2);
 
-        Console.Clear();
+        //Console.Clear();
 
         // multiple methods
         voidDelegateFromClass += c.WriteHello;
@@ -37,9 +40,9 @@ internal static class Delegates
 
         voidDelegateFromClass.Invoke();
         // or
-        voidDelegateFromClass();
+        //voidDelegateFromClass();
 
-        Console.WriteLine(voidDelegateFromClass.GetInvocationList()?.Length);
+        //Console.WriteLine(voidDelegateFromClass.GetInvocationList()?.Length);
         Console.Clear();
 
         // remove method
@@ -51,6 +54,11 @@ internal static class Delegates
         Console.WriteLine(voidDelegateFromClass?.GetInvocationList()?.Length);
         Console.Clear();
 
+        var x2 = new { Value = (int?)null };
+        if (x2.Value > 0)
+        {
+
+        }
 
         // Write your own delegate that accepts 1-2 parms and returns any type. Add methods, Remove and Invoke (15 mins)
     }
@@ -65,6 +73,11 @@ internal static class Delegates
         public int Add(int left, int right)
         {
             return left + right;
+        }
+
+        public int Multiply(int left, int right)
+        {
+            return left * right;
         }
     }
 

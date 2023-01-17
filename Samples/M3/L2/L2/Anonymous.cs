@@ -16,7 +16,7 @@ internal static class Anonymous
 
         // lambda function
         Do delLambda = (int a, int b) => a * b;
-        delLambda += (int a, int b) =>
+        delLambda += (a, b) =>
         {
             return a + b;
         };

@@ -12,11 +12,10 @@ internal class DelegateExample
 
     public class WaterLeveler
     {
-        public delegate void HighWaterLevelHandler(int waterLevel);
-        public delegate void LowWaterLevelHandler(int waterLevel);
+        public delegate void WaterLevelHandler(int waterLevel);
 
-        public HighWaterLevelHandler? HighWaterLevelReached;
-        public LowWaterLevelHandler? LowWaterLevelReached;
+        public WaterLevelHandler? HighWaterLevelReached;
+        public WaterLevelHandler? LowWaterLevelReached;
 
         private const int _highWaterLevel = 100;
         private const int _lowWaterLevel = 10;

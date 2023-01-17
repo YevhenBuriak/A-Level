@@ -5,18 +5,37 @@ internal static class LINQ
 {
     public static void Execute()
     {
-        var list = new List<int>() { 1, 2, 3, 4, 5, 6 };
+        var list = new List<int>() { 1, 2, 3 };
 
-        list.Select(i => i + 2); // ??
-        list.Where(i => i % 2 == 0); //??
-        list.Any(i => i % 2 == 0); //??
-        list.Find(i => i == 3);
+        var query = list.Where2(i => i % 2 == 0).ToList(); // 2
+        // false
 
-        var x = from i in list
-                where i > 4
-                select i;
+        list.Any(i => i % 2 == 0); // true
+        list.All(i => i % 2 == 0);
+        list.First(i => i == 3); // 3
+        //list.Single(i => i == 4); // exception
+        list.Sum();
+        list.ToArray();
+        list.ToList();
+        list.FirstOrDefault();
+        list.SingleOrDefault();
+        list.Last(x => x > 1);
+        list.LastOrDefault();
+        list.Max();
+        list.Min();
+    }
+}
 
-
-
+public static class Ext
+{
+    public static IEnumerable<T> Where2<T>(this IEnumerable<T> src, Func<T, bool> func)
+    {
+        foreach (var item in src)
+        {
+            if (func(item))
+            {
+                yield return item;
+            }
+        }
     }
 }

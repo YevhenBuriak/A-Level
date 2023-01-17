@@ -10,12 +10,12 @@ internal static class ActionsAndFunctions
     {
         // ACTION -> no return (void)
         Action xAction = () => Console.WriteLine("Empty action");
-        Action<int> yAction = (int p) => Console.WriteLine($"Action with param");
-        var zAction = () => Console.WriteLine("Var action");
+        Action<int> yAction = (p) => Console.WriteLine($"Action with param");
+        var zAction = (int x) => Console.WriteLine("Var action");
 
         // FUNC -> last T is a return type
         Func<int> xFunc = () => 1;
-        Func<int, string> yFunct = (int p) => "Hello Function";
+        Func<int, string, string> yFunct = (p, x) => "Hello Function";
         var zFunc = (int p, int p2) => 0.01M;
 
         // PREDICATE -> returns boolean, takes 1 parameter

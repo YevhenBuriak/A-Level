@@ -1,22 +1,21 @@
 ﻿namespace L2;
 
+public delegate void HighWaterLevelHandler(int waterLevel);
+public delegate void LowWaterLevelHandler(int waterLevel);
+
 internal static class Events
 {
     public static void Execute()
     {
         var swimmingPool = new SwimmingPool();
 
-        swimmingPool.WaterLeveler.HighWaterLevelReached = null;
-        swimmingPool.WaterLeveler.HighWaterLevelReached?.Invoke(10);
+        //swimmingPool.WaterLeveler.LowWaterLevelReached = null;
     }
 
     public class WaterLeveler
     {
-        public delegate void HighWaterLevelHandler(int waterLevel);
-        public delegate void LowWaterLevelHandler(int waterLevel);
-
-        public HighWaterLevelHandler? HighWaterLevelReached;
-        public LowWaterLevelHandler? LowWaterLevelReached;
+        public event HighWaterLevelHandler? HighWaterLevelReached;
+        public event LowWaterLevelHandler? LowWaterLevelReached;
 
         private const int _highWaterLevel = 100;
         private const int _lowWaterLevel = 10;
