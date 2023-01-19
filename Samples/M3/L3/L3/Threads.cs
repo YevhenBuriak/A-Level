@@ -15,7 +15,7 @@ internal static class Threads
         for (var i = 0; i < 10; i++)
         {
             //Access();
-            //LimmitedAccess();
+            LimmitedAccess();
         }
 
         // ex 3
@@ -25,11 +25,11 @@ internal static class Threads
         // ex 4
         //var thread = new Thread(DoWork);
         //thread.Start((int i) => Console.WriteLine(i));
-        //
+
         //thread.Join();
     }
 
-    static void WithCallBack(object callback)
+    static void DoWork(object callback)
     {
         // Do some work
         Thread.Sleep(1000);
@@ -41,7 +41,7 @@ internal static class Threads
 
     public static void LongRunningCalc()
     {
-        Thread.Sleep(3000);
+        Thread.Sleep(1000);
         Console.WriteLine("Done sleeping");
     }
 
@@ -122,51 +122,54 @@ internal static class Threads
                 }
             }
         }
-    }
 
-    public class DeadLocker
-    {
-        private readonly object _lock1 = new();
-        private readonly object _lock2 = new();
-        public void Start()
+        public class DeadLocker
         {
-            var thread1 = new Thread(AcquireLocks);
-            thread1.Start();
-
-            var thread2 = new Thread(AcquireReveredLocks);
-            thread2.Start();
-
-            // Wait for the threads to finish
-            thread1.Join();
-            thread2.Join();
-        }
-
-        private void AcquireLocks()
-        {
-            lock (_lock1)
+            private readonly object _lock1 = new();
+            private readonly object _lock2 = new();
+            public void Start()
             {
-                Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} acquired lock on 1");
-                Thread.Sleep(1000);
+                var thread1 = new Thread(AcquireLocks);
+                thread1.Start();
 
+                var thread2 = new Thread(AcquireReveredLocks);
+                thread2.Start();
+
+                // Wait for the threads to finish
+                thread1.Join();
+                thread2.Join();
+            }
+
+            private void AcquireLocks()
+            {
+                lock (_lock1)
+                {
+                    Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} acquired lock on 1");
+                    Thread.Sleep(1000);
+
+                    lock (_lock2)
+                    {
+                        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} acquired lock on 2");
+                    }
+                }
+            }
+
+            private void AcquireReveredLocks()
+            {
                 lock (_lock2)
                 {
                     Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} acquired lock on 2");
-                }
-            }
-        }
+                    Thread.Sleep(1000);
 
-        private void AcquireReveredLocks()
-        {
-            lock (_lock2)
-            {
-                Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} acquired lock on 1");
-                Thread.Sleep(1000);
-
-                lock (_lock1)
-                {
-                    Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} acquired lock on 2");
+                    lock (_lock1)
+                    {
+                        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} acquired lock on 1");
+                    }
                 }
             }
         }
     }
+
+
+    // створити 2 потоки, запустити якісь довгоживучі методи
 }

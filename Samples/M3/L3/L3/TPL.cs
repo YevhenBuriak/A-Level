@@ -7,13 +7,19 @@ internal static class TPL
         Console.WriteLine($"Main thread id: {Environment.CurrentManagedThreadId}");
 
         // ex 0
-        //var newTask = new Task(() => Console.WriteLine("Hello Task"));
+        var newTask = new Task(() =>
+        {
+            Console.WriteLine("Hello Task");
+            Task.Delay(100);
+        });
         //var newTaskWithReturn = new Task<int>(() => 3 * 3);
         //var taskWithPredeterminedResult = Task.FromResult("Hi from completed task");
         //var taskWithCanceledResult = Task.FromCanceled(new CancellationToken(true));
         //var taskWithException = Task.FromException(new DivideByZeroException());
 
-        //newTask.Start();
+        newTask.Start();
+
+        Console.WriteLine($"I am still here: {Environment.CurrentManagedThreadId}");
 
         // ex 1
         //NonBlocking();
@@ -22,11 +28,11 @@ internal static class TPL
         // ex 2
         //var task = Task.Run(() =>
         //{
-        //    Task.Delay(3000).Wait();
+        //    Task.Delay(30000).Wait();
         //    Console.WriteLine($"Thread id: {Environment.CurrentManagedThreadId}, I'm working!");
         //});
         //task.Wait();
-        //
+
         //Console.WriteLine($"Thread id: {Environment.CurrentManagedThreadId}, Finally you are done!");
 
         // ex 3 + async
@@ -36,7 +42,7 @@ internal static class TPL
         //    Console.WriteLine($"Thread id: {Environment.CurrentManagedThreadId}, I'm working!");
         //});
         //await task;
-        //
+
         //Console.WriteLine($"Thread id: {Environment.CurrentManagedThreadId}, Finally you are done!");
 
 
@@ -106,15 +112,15 @@ internal static class TPL
         //}
 
         // ex 6
-        var tasks = new List<Task<int>>()
-        {
-            Task.Run(async () => { await Task.Delay(100); return 1; }),
-            Task.Run(async () => { await Task.Delay(500); return 2; }),
-            Task.Run(async () => { await Task.Delay(600); return 3; }),
-        };
+        //var tasks = new List<Task<int>>()
+        //{
+        //    Task.Run(async () => { await Task.Delay(100); return 1; }),
+        //    Task.Run(async () => { await Task.Delay(500); return 2; }),
+        //    Task.Run(async () => { await Task.Delay(600); return 3; }),
+        //};
 
-        var whenAll = await Task.WhenAll(tasks);
-        var whenAny = await Task.WhenAny(tasks);
+        //var whenAll = await Task.WhenAll(tasks);
+        //var whenAny = await Task.WhenAny(tasks);
     }
 
     public static void NonBlocking()

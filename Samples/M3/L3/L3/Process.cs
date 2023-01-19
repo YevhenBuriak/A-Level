@@ -20,10 +20,9 @@ internal static class ProcessSmaples
 
         // Write data to the standard input of the process
         using var writer = process.StandardInput;
-        writer.WriteLine("Get-Process");
+        writer.WriteLine("Get-ComputerInfo");
 
-        using var reader = process.StandardOutput;
-        var str = reader.ReadToEnd();
+
 
         // Wait for the process to exit
         process.WaitForExit();
