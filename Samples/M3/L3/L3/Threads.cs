@@ -12,11 +12,10 @@ internal static class Threads
         //StartWait();
 
         // ex 2
-        for (var i = 0; i < 10; i++)
-        {
-            //Access();
-            LimmitedAccess();
-        }
+        var acc = new VeryImportantBankAccount();
+
+        //Access(acc);
+        LimmitedAccess(acc);
 
         // ex 3
         //var deadLock = new DeadLocker();
@@ -41,12 +40,13 @@ internal static class Threads
 
     public static void LongRunningCalc()
     {
-        Thread.Sleep(1000);
-        Console.WriteLine("Done sleeping");
+        Thread.Sleep(2000);
+        Console.WriteLine($"Done sleeping from {Thread.CurrentThread.Name}");
     }
 
     public static void StartWait()
     {
+        Thread.CurrentThread.Name = "MAIN";
         var process = Process.GetCurrentProcess();
         _ = process.Threads.Count;
 
@@ -55,18 +55,17 @@ internal static class Threads
         thread.Name = "Long running task";
         thread.Start();
 
-        Console.WriteLine("Continue working");
+        //thread.Join(); // how to wait
 
-        thread.Join(); // waiting
+        Console.WriteLine($"Continue working {Thread.CurrentThread.Name}");
+
     }
 
-    public static void Access()
+    public static void Access(VeryImportantBankAccount acc)
     {
-        var limmitedAccess = new Locked();
-
-        var thread = new Thread(() => limmitedAccess.IncrementUnSafellyNtimes(1000));
-        var thread2 = new Thread(() => limmitedAccess.IncrementUnSafellyNtimes(1000));
-        var thread3 = new Thread(() => limmitedAccess.IncrementUnSafellyNtimes(1000));
+        var thread = new Thread(() => acc.UnsafeDeposit(30));
+        var thread2 = new Thread(() => acc.UnsafeDeposit(60));
+        var thread3 = new Thread(() => acc.UnsafeDeposit(90));
 
         thread.Start();
         thread2.Start();
@@ -75,17 +74,13 @@ internal static class Threads
         thread.Join();
         thread2.Join();
         thread2.Join();
-
-        Console.WriteLine(limmitedAccess.SomeIntValue);
     }
 
-    public static void LimmitedAccess()
+    public static void LimmitedAccess(VeryImportantBankAccount acc)
     {
-        var limmitedAccess = new Locked();
-
-        var thread = new Thread(() => limmitedAccess.IncrementSafellyNtimes(1000));
-        var thread2 = new Thread(() => limmitedAccess.IncrementSafellyNtimes(1000));
-        var thread3 = new Thread(() => limmitedAccess.IncrementSafellyNtimes(1000));
+        var thread = new Thread(() => acc.Deposit(30));
+        var thread2 = new Thread(() => acc.Deposit(60));
+        var thread3 = new Thread(() => acc.Deposit(90));
 
         thread.Start();
         thread2.Start();
@@ -94,32 +89,29 @@ internal static class Threads
         thread.Join();
         thread2.Join();
         thread2.Join();
-
-        Console.WriteLine(limmitedAccess.SomeIntValue);
     }
 
-    public class Locked
+    public class VeryImportantBankAccount
     {
         private readonly object _lock = new();
-        public int SomeIntValue { get; private set; }
+        public int Balance { get; private set; }
 
-        public Locked(int initial = 0) => SomeIntValue = initial;
-        public void IncrementUnSafellyNtimes(int n)
+        public void UnsafeDeposit(int balance)
         {
-            for (var i = 0; i < n; i++)
-            {
-                SomeIntValue++;
-            }
+            Console.WriteLine($"Attempting set {balance}");
+            Balance = balance;
+            Thread.Sleep(1000);
+            Console.WriteLine($"Active set to {Balance}");
         }
 
-        public void IncrementSafellyNtimes(int n)
+        public void Deposit(int balance)
         {
-            for (var i = 0; i < n; i++)
+            lock (_lock)
             {
-                lock (_lock)
-                {
-                    SomeIntValue++;
-                }
+                Console.WriteLine($"Attempting set {balance}");
+                Balance = balance;
+                Thread.Sleep(1000);
+                Console.WriteLine($"Active set to {Balance}");
             }
         }
 
